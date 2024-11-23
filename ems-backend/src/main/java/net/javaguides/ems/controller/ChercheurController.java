@@ -1,14 +1,12 @@
+// ChercheurController.java
+
 package net.javaguides.ems.controller;
 
 import net.javaguides.ems.entity.Chercheur;
-// Assurez-vous d'importer la classe
 import net.javaguides.ems.entity.Publier;
 import net.javaguides.ems.service.impl.ChercheurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,15 +17,36 @@ public class ChercheurController {
     @Autowired
     private ChercheurService chercheurService;
 
-    // Récupérer les publications d'un chercheur
+    // Récupérer tous les chercheurs
+    @GetMapping
+    public List<Chercheur> getAllChercheurs() {
+        return chercheurService.getAllChercheurs();
+    }
+    // Récupérer un chercheur par son chno
+    @GetMapping("/{chno}")
+    public Chercheur getChercheur(@PathVariable int chno) {
+        return chercheurService.getChercheurByChno(chno);
+    }
+    // Ajouter un chercheur
+    @PostMapping
+    public Chercheur addChercheur(@RequestBody Chercheur chercheur) {
+        return chercheurService.addChercheur(chercheur);
+    }
+    // Supprimer un chercheur
+    @DeleteMapping("/{chno}")
+    public void deleteChercheur(@PathVariable int chno) {
+        chercheurService.deleteChercheur(chno);
+    }
+
+    // Endpoint pour récupérer les chercheurs dans un laboratoire
+    @GetMapping("/lab/{labno}")
+    public List<Chercheur> getResearchersInLaboratory(@PathVariable Long labno) {
+        return chercheurService.getResearchersInLaboratory(labno);
+    }
+
+    // Endpoint pour récupérer les publications d'un chercheur
     @GetMapping("/{chno}/publications")
     public List<Publier> getPublicationsByChercheur(@PathVariable Integer chno) {
         return chercheurService.getPublicationsByChercheur(chno);
-    }
-
-    // Récupérer les chercheurs dans un laboratoire
-    @GetMapping("/laboratoire/{labno}/chercheurs")
-    public List<Chercheur> getResearchersInLaboratory(@PathVariable Long labno) {
-        return chercheurService.getResearchersInLaboratory(labno);
     }
 }

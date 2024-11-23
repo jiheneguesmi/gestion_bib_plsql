@@ -1,5 +1,9 @@
 package net.javaguides.ems.entity;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
 
@@ -7,7 +11,9 @@ import java.util.Date;
 public class Publication {
 
     @Id
-    private String pubno; // Clé primaire pour Publication
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // La base de données génère automatiquement l'ID
+    @Column(name = "pubno")
+    private Long pubno; // Changez le type de String à Long pour une clé primaire auto-générée
 
     private String titre; // Titre de la publication
     private String theme; // Thème de la recherche
@@ -18,12 +24,11 @@ public class Publication {
     private String editeur; // Nom de l'éditeur
 
     // Getters et Setters
-
-    public String getPubno() {
+    public Long getPubno() {
         return pubno;
     }
 
-    public void setPubno(String pubno) {
+    public void setPubno(Long pubno) {
         this.pubno = pubno;
     }
 
